@@ -52,7 +52,7 @@ local function CreateCustom()
     local imageBytes = byte
     local UI = game.Players.LocalPlayer.PlayerGui.MainGui.PaintFrame.GridHolder.Grid
     for i,v in pairs(imageBytes) do
-        wait()
+        wait(0.25)
         UI[i].BackgroundColor3  = Color3.fromRGB(v.R, v.G, v.B)
     end  
 end
