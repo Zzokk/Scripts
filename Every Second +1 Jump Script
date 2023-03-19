@@ -1,0 +1,53 @@
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/miroeramaa/TurtleLib/main/TurtleUiLib.lua"))()
+getgenv().c = false
+getgenv().b = false
+getgenv().a = false
+
+local function Autofarm()
+    spawn(function ()
+        while getgenv().a do
+            wait(1)
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Wins.World14.CFrame
+        end
+    end)
+end
+
+local function BuyEgg()
+    spawn(function ()
+        while getgenv().b do
+            wait()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game:GetService("Workspace").Eggs.Heaven.NameBrick.CFrame
+            local args = {
+                [1] = "Heaven",
+                [2] = "Single"
+            }
+            game:GetService("ReplicatedStorage").RemoteEvents.EggOpened:InvokeServer(unpack(args))
+        end
+    end)
+end
+local function AutoRebirth()
+    spawn( function()
+        while getgenv().c do
+            wait()
+            game:GetService("ReplicatedStorage").RebirthEvent:FireServer()
+        end
+    end)
+end
+local window = library:Window("Main")
+
+window:Toggle("Autofarm", false, function(bool)
+    print(bool) -- bool is true or false depending on the state of the toggle
+    getgenv().a = bool
+    Autofarm()
+end)
+window:Toggle("Auto Buy Best Egg (have to be near it)", false, function(bool)
+    print(bool) -- bool is true or false depending on the state of the toggle
+    getgenv().b = bool
+    BuyEgg()
+end)
+window:Toggle("Auto Rebirth", false, function(bool)
+    print(bool) -- bool is true or false depending on the state of the toggle
+    getgenv().c = bool
+    AutoRebirth()
+end)
+window:Label("Credits: Zok-YT", Color3.fromRGB(127, 143, 166))
