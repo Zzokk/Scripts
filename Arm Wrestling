@@ -1,0 +1,160 @@
+local Material = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/MaterialLua/master/Module.lua"))()
+
+local Gui = Material.Load({
+    Title = "Arm Wrestling Zok-YT",
+    Style = 3,
+    SizeX = 250,
+    SizeY = 350,
+    Theme = "Dark",
+    ColorOverrides = {
+        
+    }
+})
+
+local Page1 = Gui.New({
+    Title = "main"
+})
+
+local Page2 = Gui.New({
+    Title = "Other"
+})
+
+getgenv().forearm = false
+getgenv().biceps = false
+getgenv().grip = false
+getgenv().num = 1
+
+getgenv().cost = 0
+
+local function forearmLoop(num)
+    while getgenv().forearm do
+        task.wait()
+        local args = {
+            [1] = num
+        }
+        workspace.Main.RemoteEvent:FireServer(unpack(args))
+    end
+end
+
+local function bicepsLoop(num)
+    while getgenv().biceps do
+        task.wait()
+        local args = {
+            [1] = num
+        }
+        workspace.Main3.RemoteEvent:FireServer(unpack(args))
+    end
+end
+
+local function gripLoop(num)
+    while getgenv().grip do
+        task.wait()
+        local args = {
+            [1] = num
+        }
+        workspace.Main2.RemoteEvent:FireServer(unpack(args))
+    end
+end
+
+local function upgradeStr(a)
+    local args = {
+        [1] = a,
+        [2] = 0
+    }
+    game:GetService("ReplicatedStorage").strength:FireServer(unpack(args))
+end
+local function upgradeGrip(a)
+    local args = {
+        [1] = a,
+        [2] = 0
+    }
+    game:GetService("ReplicatedStorage").strength:FireServer(unpack(args))
+end
+local function upgradeBiceps(a)
+    local args = {
+        [1] = a,
+        [2] = 0
+    }
+    game:GetService("ReplicatedStorage").strength:FireServer(unpack(args))
+end
+
+-- local Button = Page1.Button({
+--     Text = "Kill All",
+--     Callback = function()
+--         print("hello")
+--     end,
+--     Menu = {
+--         Information = function(self)
+--             Gui.Banner({
+--                 Text = ""
+--             })
+--         end
+--     }
+-- })
+
+local Toggle = Page1.Toggle({
+	Text = "Auto Forearm",
+	Callback = function(Value)
+        getgenv().forearm = Value
+		forearmLoop(getgenv().num)
+	end,
+	Enabled = false
+})
+local Toggle = Page1.Toggle({
+	Text = "Auto Biceps",
+	Callback = function(Value)
+        getgenv().biceps = Value
+		bicepsLoop(getgenv().num)
+	end,
+	Enabled = false
+})
+local Toggle = Page1.Toggle({
+	Text = "Auto Grip",
+	Callback = function(Value)
+        getgenv().grip = Value
+		gripLoop(getgenv().num)
+	end,
+	Enabled = false
+})
+
+local textfield = Page1.TextField({
+	Text = "How Much??",
+	Callback = function(Value)
+		getgenv().num = Value
+	end,
+	Menu = {
+	}
+})
+
+local dropdown = Page2.Dropdown({
+	Text = "Multipliers",
+	Callback = function(Value)
+		if Value == "Grip" then
+            upgradeGrip(getgenv().cost)
+        elseif Value == "Biceps" then
+            upgradeBiceps(getgenv().cost)
+        elseif Value == "Forearm" then
+            upgradeStr(getgenv().cost)
+        end
+	end,
+	Options = {
+		"Grip",
+		"Biceps",
+		"Forearm"
+	},
+	Menu = {
+		Information = function(self)
+			X.Banner({
+				Text = "Test alert!"
+			})
+		end
+	}
+})
+local textfield = Page2.TextField({
+	Text = "Cost: 'do negative for money' ",
+	Callback = function(Value)
+		getgenv().cost = Value
+	end,
+	Menu = {
+	}
+})
